@@ -116,6 +116,25 @@ TAG_INDEX.md maintains bidirectional mapping:
 - Handle truncation gracefully (respect `maxChars` limits)
 - Preserve original formatting where possible
 
+### Proxy Configuration and Retry
+
+When fetching article content from URLs fails:
+
+1. **First Attempt**: Try fetching without proxy
+2. **On Failure**: Load proxy configuration from environment variables:
+   - `HTTP_PROXY` or `http_proxy`: HTTP proxy URL
+   - `HTTPS_PROXY` or `https_proxy`: HTTPS proxy URL
+   - `NO_PROXY` or `no_proxy`: Comma-separated list of hosts to bypass
+3. **Retry**: Re-attempt fetching with proxy configuration
+4. **Final Failure**: Notify user if both attempts fail
+
+Example environment variables:
+```bash
+export HTTP_PROXY="http://proxy.example.com:8080"
+export HTTPS_PROXY="http://proxy.example.com:8080"
+export NO_PROXY="localhost,127.0.0.1,.example.com"
+```
+
 ### Summary Generation
 
 Generate 2-3 paragraph summaries that capture:
