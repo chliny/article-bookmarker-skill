@@ -115,6 +115,7 @@ TAG_INDEX.md maintains bidirectional mapping:
 - Use `web_fetch` with `extractMode: "markdown"` for web articles
 - Handle truncation gracefully (respect `maxChars` limits)
 - Preserve original formatting where possible
+- **GitHub Repository URLs**: When the URL is a GitHub repository (e.g., `https://github.com/user/repo`), prioritize fetching the README content from the repository's main page or from `README.md`, `readme.md`, or `README.rst` files in the root directory
 
 ### Proxy Configuration and Retry
 
