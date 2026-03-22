@@ -1,20 +1,23 @@
 ---
 name: article-bookmarker
-description: Collect and organize articles by fetching URLs, extracting content, generating AI summaries, auto-tagging topics, and maintaining a searchable bookmark collection with tag-based indexing. Use when the user wants to save articles from web links or text content for future reference and organization.
+description: Save and organize web articles as bookmarks with AI summaries and auto-tagging. Use when the user wants to bookmark or collect articles.
 ---
 
 # Article Bookmarker Skill
+
+> **IMPORTANT**: Before any operation, read the environment variable `$ARTICLE_BOOKMARK_DIR` to determine the bookmark storage directory. All bookmark files and the tag index must be stored under this path. If the variable is not set, prompt the user to configure it.
 
 ## Quick Start
 
 When the user provides a URL or article text to bookmark:
 
-1. Use `web_fetch` to get the article content
-2. Generate a concise summary using the current model
-3. Auto-generate relevant tags based on content analysis
-4. Create a markdown file with URL, content, summary, and tags
-5. Save to the bookmark directory (configured via `$ARTICLE_BOOKMARK_DIR` environment variable) with descriptive filename
-6. Update the tag index file
+1. Read `$ARTICLE_BOOKMARK_DIR` to get the storage path
+2. Use `web_fetch` to get the article content
+3. Generate a concise summary using the current model
+4. Auto-generate relevant tags based on content analysis
+5. Create a markdown file with URL, content, summary, and tags (see [file-structure.md](references/file-structure.md) for format details)
+6. Save to the bookmark directory with descriptive filename
+7. Update the tag index file
 
 For deletion requests: find the article, confirm details with user, then remove and update index.
 
@@ -23,57 +26,24 @@ For deletion requests: find the article, confirm details with user, then remove 
 ### Adding Articles
 
 ```
-1. Receive URL or text content
-2. Extract/save content (web_fetch for URLs)
-3. Generate summary (model-based)
-4. Auto-tag (keyword/topic analysis)
-5. Create bookmark file (markdown format)
-6. Update tag index
+1. Read $ARTICLE_BOOKMARK_DIR
+2. Receive URL or text content
+3. Extract/save content (web_fetch for URLs)
+4. Generate summary (model-based)
+5. Auto-tag (keyword/topic analysis)
+6. Create bookmark file (markdown format)
+7. Update tag index
 ```
 
 ### Deleting Articles
 
 ```
-1. Identify target article (by filename, topic, or content)
-2. Display article details for confirmation
-3. Get user confirmation
-4. Delete bookmark file
-5. Update tag index
-```
-
-## File Structure
-
-Bookmarks are stored as individual markdown files in the directory specified by the `$ARTICLE_BOOKMARK_DIR` environment variable:
-
-```
-bookmarks/
-├── article-title-slug.md (individual articles)
-├── TAG_INDEX.md (tag to article mapping)
-└── README.md (directory overview)
-```
-
-### Bookmark File Format
-
-Each bookmark file contains:
-
-```markdown
-# Article Title
-
-**Source:** URL  
-**Bookmarked:** YYYY-MM-DD HH:MM GMT+8  
-**Tags:** tag1, tag2, tag3
-
-## Summary
-
-AI-generated concise summary of the article...
-
-## Content
-
-Full extracted article content...
-
-## Original URL
-
-[Link](URL)
+1. Read $ARTICLE_BOOKMARK_DIR
+2. Identify target article (by filename, topic, or content)
+3. Display article details for confirmation
+4. Get user confirmation
+5. Delete bookmark file
+6. Update tag index
 ```
 
 ## Tag Management
@@ -90,7 +60,7 @@ Maintain consistent tag vocabulary to avoid duplicates (e.g., use "AI" not "arti
 
 ### Tag Index Format
 
-TAG_INDEX.md maintains bidirectional mapping:
+TAG_INDEX.md maintains bidirectional mapping (see [file-structure.md](references/file-structure.md) for full format):
 
 ```markdown
 # Article Tag Index
@@ -98,13 +68,11 @@ TAG_INDEX.md maintains bidirectional mapping:
 ## Tags
 
 - **AI**: [article1](article1.md), [article2](article2.md)
-- **Skills**: [skill-creation](skill-creation.md), [evaluation](evaluating-skill-output-quality.md)
 - **Research**: [...]
 
 ## Articles by Tag Count
 
 - 3 tags: [article1](article1.md)
-- 2 tags: [article2](article2.md), [article3](article3.md)
 - 1 tag: [...]
 ```
 
