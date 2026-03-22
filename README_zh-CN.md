@@ -44,9 +44,19 @@
 
 技能会在删除前显示确认详情。
 
+## 配置
+
+### 书签存储位置
+
+书签存储在由 `ARTICLE_BOOKMARK_DIR` 环境变量指定的目录中。在使用此技能前，必须设置此环境变量：
+
+```bash
+export ARTICLE_BOOKMARK_DIR="/path/to/your/bookmarks"
+```
+
 ## 文件结构
 
-书签存储在 `~/.openclaw/workspace/bookmarks/` 目录：
+书签存储在配置的目录中：
 
 ```
 bookmarks/

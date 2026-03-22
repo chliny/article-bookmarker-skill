@@ -13,7 +13,7 @@ When the user provides a URL or article text to bookmark:
 2. Generate a concise summary using the current model
 3. Auto-generate relevant tags based on content analysis
 4. Create a markdown file with URL, content, summary, and tags
-5. Save to `~/.openclaw/workspace/bookmarks/` with descriptive filename
+5. Save to the bookmark directory (configured via `$ARTICLE_BOOKMARK_DIR` environment variable) with descriptive filename
 6. Update the tag index file
 
 For deletion requests: find the article, confirm details with user, then remove and update index.
@@ -43,7 +43,7 @@ For deletion requests: find the article, confirm details with user, then remove 
 
 ## File Structure
 
-Bookmarks are stored as individual markdown files in `~/.openclaw/workspace/bookmarks/`:
+Bookmarks are stored as individual markdown files in the directory specified by the `$ARTICLE_BOOKMARK_DIR` environment variable:
 
 ```
 bookmarks/

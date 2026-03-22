@@ -44,9 +44,19 @@ User: "Delete the article ai-research-2024.md"
 
 The skill will show confirmation details before deletion.
 
+## Configuration
+
+### Bookmark Storage Location
+
+Bookmarks are stored in a directory specified by the `ARTICLE_BOOKMARK_DIR` environment variable. You must set this variable before using the skill:
+
+```bash
+export ARTICLE_BOOKMARK_DIR="/path/to/your/bookmarks"
+```
+
 ## File Structure
 
-Bookmarks are stored in `~/.openclaw/workspace/bookmarks/`:
+Bookmarks are stored in the configured directory:
 
 ```
 bookmarks/
