@@ -4,6 +4,8 @@ description: Save and organize web articles as bookmarks with AI summaries and a
 metadata:
   version: v0.1.0
   author: chliny11@gmail.com
+  requires:
+    env: ["ARTICLE_BOOKMARK_DIR"]
 ---
 
 # Article Bookmarker Skill
