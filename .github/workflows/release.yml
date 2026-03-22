@@ -27,10 +27,10 @@ jobs:
           mkdir -p package_temp
 
           # Copy all files except README.md, README_zh-CN.md and hidden files
-          find . -maxdepth 1 -type f ! -name "README.md" ! -name "README_zh-CN.md" ! -name ".*" -exec cp {} package_temp/ \;
+          find . -maxdepth 1 -type f ! -name "README.md" ! -name "README_zh-CN.md" ! -name "LICENSE" ! -name ".*" -exec cp {} package_temp/ \;
 
           # Copy all directories except .github and hidden directories
-          find . -maxdepth 1 -type d ! -name "." ! -name ".git" ! -name ".github" ! -name ".*" -exec cp -r {} package_temp/ \;
+          find . -maxdepth 1 -type d ! -name "." ! -name ".git" ! -name ".github" ! -name package_temp ! -name ".*" -exec cp -r {} package_temp/ \;
 
           # Create zip archive
           cd package_temp
