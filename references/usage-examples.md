@@ -15,7 +15,7 @@
    - AI-generated summary
    - Full extracted content
    - Original URL link
-5. Save to `~/.openclaw/workspace/bookmarks/`
+5. Save to `$ARTICLE_BOOKMARK_DIR`
 6. Update TAG_INDEX.md with new entry
 
 **Example Output:** Creates `ai-research-2024.md` with proper tagging and summary.
@@ -36,7 +36,7 @@
 ```
 找到文章：ai-research-2024.md
 标题：AI Research Breakthrough in 2024
-路径：~/.openclaw/workspace/bookmarks/ai-research-2024.md
+路径：$ARTICLE_BOOKMARK_DIR/ai-research-2024.md
 标签：AI, Research, Machine Learning
 摘要：Recent advances in artificial intelligence have shown...
 
