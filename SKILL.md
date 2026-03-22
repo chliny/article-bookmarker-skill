@@ -1,6 +1,9 @@
 ---
 name: article-bookmarker
 description: Save and organize web articles as bookmarks with AI summaries and auto-tagging. Use when the user wants to bookmark or collect articles.
+metadata:
+  version: 0.1.0
+  author: chliny11@gmail.com
 ---
 
 # Article Bookmarker Skill
