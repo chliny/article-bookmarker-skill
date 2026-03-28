@@ -8,6 +8,8 @@ metadata: {"openclaw": {"emoji":"🔖","requires":{"env":["ARTICLE_BOOKMARK_DIR"
 # Article Bookmarker Skill
 
 > **IMPORTANT**: Before any operation, read the environment variable `$ARTICLE_BOOKMARK_DIR` to determine the bookmark storage directory. All bookmark files and the tag index must be stored under this path. If the variable is not set, prompt the user to configure it.
+>
+> When calling `scripts/bookmark.sh`, you **must** pass `ARTICLE_BOOKMARK_DIR` and `ARTICLE_BOOKMARK_GITHUB` as inline environment variables — the script runs in a subprocess and does not inherit them automatically.
 
 ## Quick Start
 
@@ -44,14 +46,14 @@ For deletion requests: find the article, confirm details with user, then remove,
 ### Deleting Articles
 
 ```
-1. Run scripts/bookmark.sh init
+1. Run ARTICLE_BOOKMARK_DIR="$ARTICLE_BOOKMARK_DIR" ARTICLE_BOOKMARK_GITHUB="$ARTICLE_BOOKMARK_GITHUB" scripts/bookmark.sh init
 2. Read $ARTICLE_BOOKMARK_DIR
 3. Identify target article (by filename, topic, or content)
 4. Display article details for confirmation
 5. Get user confirmation
 6. Delete bookmark file
 7. Update tag index
-8. Run scripts/bookmark.sh save "Delete article: <title>"
+8. Run ARTICLE_BOOKMARK_DIR="$ARTICLE_BOOKMARK_DIR" ARTICLE_BOOKMARK_GITHUB="$ARTICLE_BOOKMARK_GITHUB" scripts/bookmark.sh save "Delete article: <title>"
 ```
 
 ## Tag Management
