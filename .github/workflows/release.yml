@@ -23,22 +23,10 @@ jobs:
 
       - name: Create zip archive
         run: |
-          # Create temporary directory for packaging
           mkdir -p package_temp
-
-          # Copy all files except README.md, README_zh-CN.md and hidden files
           find . -maxdepth 1 -type f ! -name "README.md" ! -name "README_zh-CN.md" ! -name "LICENSE" ! -name ".*" -exec cp {} package_temp/ \;
-
-          # Copy all directories except .github and hidden directories
           find . -maxdepth 1 -type d ! -name "." ! -name ".git" ! -name ".github" ! -name package_temp ! -name ".*" -exec cp -r {} package_temp/ \;
-
-          # Create zip archive
-          cd package_temp
-          zip -r ../article-bookmarker-${{ steps.get_version.outputs.VERSION }}.zip .
-          cd ..
-
-          # Clean up
-          rm -rf package_temp
+          cd package_temp && zip -r ../article-bookmarker-${{ steps.get_version.outputs.VERSION }}.zip . && cd ..
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
@@ -51,3 +39,47 @@ jobs:
             article-bookmarker-${{ steps.get_version.outputs.VERSION }}.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish to ClawHub
+        if: success()
+        env:
+          CLAWHUB_TOKEN: ${{ secrets.CLAWHUB_TOKEN }}
+          VERSION: ${{ steps.get_version.outputs.VERSION }}
+        run: |
+          if [ -z "$CLAWHUB_TOKEN" ]; then
+            echo "::warning::CLAWHUB_TOKEN secret is not set. Skipping ClawHub publish."
+            rm -rf package_temp
+            exit 0
+          fi
+
+          SLUG="chliny/article-bookmarker"
+          VERSION_NUM="${VERSION#v}"
+
+          PAYLOAD=$(cat <<EOF
+          {
+            "slug": "${SLUG}",
+            "version": "${VERSION_NUM}",
+            "changelog": "Release ${VERSION}"
+          }
+          EOF
+          )
+
+          echo "Publishing ${SLUG} v${VERSION_NUM} to ClawHub..."
+
+          FILES_ARGS=""
+          cd package_temp
+          for file in $(find . -type f ! -name ".*"); do
+            FILES_ARGS="$FILES_ARGS -F files[]=@$file"
+          done
+
+          curl -s -X POST "https://clawhub.ai/api/v1/skills" \
+            -H "Authorization: Bearer ${CLAWHUB_TOKEN}" \
+            -F "payload=${PAYLOAD};type=application/json" \
+            $FILES_ARGS \
+            -w "\nHTTP Status: %{http_code}\n"
+
+          echo "ClawHub publish completed."
+
+      - name: Cleanup
+        if: always()
+        run: rm -rf package_temp
