@@ -53,15 +53,16 @@ jobs:
             exit 0
           fi
 
-          SLUG="chliny/article-bookmarker"
+          SLUG="article-bookmarker"
           VERSION_NUM="${VERSION#v}"
 
           PAYLOAD=$(cat <<EOF
           {
             "slug": "${SLUG}",
+            "displayName": "${SLUG}",
             "version": "${VERSION_NUM}",
             "changelog": "Release ${VERSION}",
-            "tags": "latest"
+            "tags": ["latest"]
           }
           EOF
           )
@@ -71,7 +72,7 @@ jobs:
           FILES_ARGS=""
           cd package_temp
           for file in $(find . -type f ! -name ".*"); do
-            FILES_ARGS="$FILES_ARGS -F files[]=@$file"
+            FILES_ARGS="$FILES_ARGS -F files=@$file"
           done
 
           curl -s -X POST "https://clawhub.ai/api/v1/skills" \
