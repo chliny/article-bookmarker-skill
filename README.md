@@ -12,6 +12,7 @@ A powerful skill for collecting, organizing, and managing article bookmarks with
 - **Searchable Collection**: Maintain a well-organized, searchable bookmark collection
 - **Tag-Based Indexing**: Bidirectional mapping between tags and articles for easy navigation
 - **Markdown Format**: All bookmarks stored in clean, portable markdown files
+- **GitHub Sync**: Optional synchronization with GitHub repository for backup and cross-device access
 
 ## Quick Start
 
@@ -24,11 +25,13 @@ User: "Bookmark this article: https://example.com/ai-research"
 ```
 
 The skill will:
-1. Fetch and extract the article content
-2. Generate an AI summary
-3. Auto-tag based on content analysis
-4. Save to your bookmark collection
-5. Update the tag index
+1. Run `scripts/bookmark.sh init` to initialize the bookmark directory
+2. Fetch and extract the article content
+3. Generate an AI summary
+4. Auto-tag based on content analysis
+5. Save to your bookmark collection
+6. Update the tag index
+7. Run `scripts/bookmark.sh save` to commit and push to GitHub (if configured)
 
 #### Bookmark Text Content
 
@@ -42,7 +45,12 @@ User: "Bookmark this content: [paste your article text here]"
 User: "Delete the article ai-research-2024.md"
 ```
 
-The skill will show confirmation details before deletion.
+The skill will:
+1. Run `scripts/bookmark.sh init` to ensure directory is ready
+2. Find and display the article details
+3. Request confirmation before deletion
+4. Remove the bookmark file and update tag index
+5. Run `scripts/bookmark.sh save` to commit and push changes
 
 ## Configuration
 
@@ -53,6 +61,29 @@ Bookmarks are stored in a directory specified by the `ARTICLE_BOOKMARK_DIR` envi
 ```bash
 export ARTICLE_BOOKMARK_DIR="/path/to/your/bookmarks"
 ```
+
+### GitHub Sync (Optional)
+
+To sync bookmarks with a GitHub repository, set the `ARTICLE_BOOKMARK_GITHUB` environment variable:
+
+```bash
+export ARTICLE_BOOKMARK_GITHUB="username/repo"
+```
+
+Supported formats:
+- `username/repo`
+- `git@github.com:username/repo.git`
+- `https://github.com/username/repo`
+- `https://github.com/username/repo.git`
+
+When configured, bookmarks are automatically committed and pushed to the remote repository. If the repository doesn't exist, it will be created automatically (private by default).
+
+### External Dependencies
+
+| Tool | Required | Purpose |
+|------|----------|---------|
+| `git` | **Yes** | Version control for bookmark management |
+| `gh` | No | Auto-create GitHub repos, check remote existence |
 
 ## File Structure
 
@@ -146,6 +177,7 @@ Typical length: 150-300 words
 
 - [SKILL.md](SKILL.md) - Complete skill specification and workflow
 - [Usage Examples](references/usage-examples.md) - Detailed usage scenarios
+- [bookmark.sh Script Guide](references/bookmark-script.md) - Git lifecycle management script documentation
 
 ## Contributing
 

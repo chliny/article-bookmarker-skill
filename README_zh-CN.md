@@ -12,6 +12,7 @@
 - **可搜索集合**：维护一个组织良好、可搜索的书签集合
 - **标签索引**：标签与文章之间的双向映射，便于导航
 - **Markdown 格式**：所有书签以整洁、可移植的 markdown 文件存储
+- **GitHub 同步**：可选的 GitHub 仓库同步功能，实现备份和跨设备访问
 
 ## 快速开始
 
@@ -24,11 +25,13 @@
 ```
 
 技能将会：
-1. 获取并提取文章内容
-2. 生成 AI 摘要
-3. 基于内容分析自动打标签
-4. 保存到您的书签集合
-5. 更新标签索引
+1. 运行 `scripts/bookmark.sh init` 初始化书签目录
+2. 获取并提取文章内容
+3. 生成 AI 摘要
+4. 基于内容分析自动打标签
+5. 保存到您的书签集合
+6. 更新标签索引
+7. 运行 `scripts/bookmark.sh save` 提交并推送到 GitHub（如已配置）
 
 #### 收藏文本内容
 
@@ -42,7 +45,12 @@
 用户: "删除文章 ai-research-2024.md"
 ```
 
-技能会在删除前显示确认详情。
+技能将会：
+1. 运行 `scripts/bookmark.sh init` 确保目录就绪
+2. 查找并显示文章详情
+3. 删除前请求确认
+4. 删除书签文件并更新标签索引
+5. 运行 `scripts/bookmark.sh save` 提交并推送更改
 
 ## 配置
 
@@ -53,6 +61,29 @@
 ```bash
 export ARTICLE_BOOKMARK_DIR="/path/to/your/bookmarks"
 ```
+
+### GitHub 同步（可选）
+
+要将书签同步到 GitHub 仓库，请设置 `ARTICLE_BOOKMARK_GITHUB` 环境变量：
+
+```bash
+export ARTICLE_BOOKMARK_GITHUB="username/repo"
+```
+
+支持的格式：
+- `username/repo`
+- `git@github.com:username/repo.git`
+- `https://github.com/username/repo`
+- `https://github.com/username/repo.git`
+
+配置后，书签将自动提交并推送到远程仓库。如果仓库不存在，将自动创建（默认为私有仓库）。
+
+### 外部依赖
+
+| 工具 | 必需 | 用途 |
+|------|----------|---------|
+| `git` | **是** | 书签管理的版本控制 |
+| `gh` | 否 | 自动创建 GitHub 仓库，检查远程仓库是否存在 |
 
 ## 文件结构
 
@@ -146,6 +177,7 @@ AI 生成的摘要包含：
 
 - [SKILL.md](SKILL.md) - 完整的技能规范和工作流程
 - [使用示例](references/usage-examples.md) - 详细的使用场景
+- [bookmark.sh 脚本指南](references/bookmark-script.md) - Git 生命周期管理脚本文档
 
 ## 贡献
 
