@@ -18,12 +18,13 @@ When the user provides a URL or article text to bookmark:
 1. Run `scripts/bookmark.sh init` to initialize the bookmark directory
 2. Read `$ARTICLE_BOOKMARK_DIR` to get the storage path
 3. Use `web_fetch` to get the article content
-4. Generate a concise summary using the current model
-5. Auto-generate relevant tags based on content analysis
-6. Create a markdown file with URL, content, summary, and tags (see [file-structure.md](references/file-structure.md) for format details)
-7. Save to the bookmark directory with descriptive filename
-8. Update the tag index file
-9. Run `scripts/bookmark.sh save "Brief commit message"` to commit and push changes
+4. Translate the complete article content into the user's language
+5. Generate a concise summary using the current model based on the translated content
+6. Auto-generate relevant tags based on content analysis
+7. Create a markdown file and write the URL, the translated full text of the article, summary, and tags into the document (see [file-structure.md](references/file-structure.md) for format details)
+8. Save the markdown document to the bookmark directory with a descriptive filename
+9. Update the tag index file
+10. Run `scripts/bookmark.sh save "Brief commit message"` to commit and push changes
 
 For deletion requests: find the article, confirm details with user, then remove, update index, and run `scripts/bookmark.sh save "Delete article xxx"`.
 
@@ -35,12 +36,13 @@ For deletion requests: find the article, confirm details with user, then remove,
 1. Run scripts/bookmark.sh init
 2. Read $ARTICLE_BOOKMARK_DIR
 3. Receive URL or text content
-4. Extract/save content (web_fetch for URLs)
-5. Generate summary (model-based)
-6. Auto-tag (keyword/topic analysis)
-7. Create bookmark file (markdown format)
-8. Update tag index
-9. Run scripts/bookmark.sh save "Add article: <title>"
+4. Extract content (web_fetch for URLs)
+5. Translate full content to the user's language
+6. Generate summary (model-based)
+7. Auto-tag (keyword/topic analysis)
+8. Create bookmark file and write the URL, translated full text, summary, and tags into the markdown document
+9. Update tag index
+10. Run scripts/bookmark.sh save "Add article: <title>"
 ```
 
 ### Deleting Articles

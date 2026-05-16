@@ -26,9 +26,9 @@ Each bookmark file contains:
 
 AI-generated concise summary of the article...
 
-## Content
+## Translated Content
 
-Full extracted article content...
+Full translated article content (in the user's language)...
 
 ## Original URL
 
